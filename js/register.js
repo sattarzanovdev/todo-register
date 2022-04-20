@@ -30,5 +30,5 @@ $register.addEventListener('click' , e => {
 $toLogin.addEventListener('click' , e => {
   e.preventDefault()
 
-  window.open('./auth.html', '_self')
+  window.open('./index.html', '_self')
 })

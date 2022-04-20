@@ -1,0 +1,68 @@
+body{
+  margin: 0;
+  background: #3f3f3f;
+}
+
+.container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card{
+  width: 350px;
+  height: 400px;
+  background: orange;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.emailInput{
+  width: 250px;
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #3f3f3f;
+  border-radius: 5px;
+  background: #f3f3f3;
+  outline: none;
+}
+
+
+.passwordInput{
+  width: 250px;
+  height: 30px;
+  padding-left: 10px;
+  margin-bottom: 15px;
+  border: 2px solid #3f3f3f;
+  border-radius: 5px;
+  background: #f3f3f3;
+  outline: none;
+}
+
+.register{
+  width: 265px;
+  height: 30px;
+  cursor: pointer;
+  border: 2px solid green;
+  border-radius: 5px;
+  background: #f3f3f3;
+}
+
+.toRegister{
+  text-align: center;
+  color: darkblue;
+  font-family: ubuntu;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.card h1{
+  font-family: ubuntu;
+  color: white;
+  text-shadow: 0 0 3px black;
+}

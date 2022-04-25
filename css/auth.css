@@ -3,6 +3,10 @@ body{
   background: #3f3f3f;
 }
 
+*{
+  font-family: montserrat;
+}
+
 .container{
   height: 100vh;
   display: flex;
@@ -13,7 +17,7 @@ body{
 .card{
   width: 350px;
   height: 400px;
-  background: orange;
+  background: orangered;
   border-radius: 15px;
   display: flex;
   align-items: center;
@@ -55,14 +59,12 @@ body{
 
 .toRegister{
   text-align: center;
-  color: darkblue;
-  font-family: ubuntu;
+  color: white;
   cursor: pointer;
   text-decoration: underline;
 }
 
 .card h1{
-  font-family: ubuntu;
   color: white;
   text-shadow: 0 0 3px black;
 }

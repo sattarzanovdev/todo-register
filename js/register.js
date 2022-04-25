@@ -17,18 +17,37 @@ function getRegister(){
     }
   })
   .then(res => res.json())
-  .then(res => console.log(res))
+  .then(res => {
+    localStorage.setItem('accessToken', res.accessToken)
+    localStorage.setItem('refreshToken', res.refreshToken)
+    localStorage.setItem('isActivated', res.user.isActivated)
+    localStorage.setItem('userId', res.user.id)
+    window.open('./auth.html', '_self')
+  })  
+  .finally(() => {
+    $register.disabled = false
+  })
 }
 
 
 $register.addEventListener('click' , e => {
   e.preventDefault()
 
-  getRegister()
+  $register.disabled = true
+  getRegister(base)
+})
+
+window.addEventListener('DOMContentLoaded', () => {
+  const accessToken = localStorage.getItem('accessToken')
+
+  if(accessToken){
+    window.open('./auth.html', '_self')
+  }
+
 })
 
 $toLogin.addEventListener('click' , e => {
   e.preventDefault()
 
-  window.open('./index.html', '_self')
+  window.open('./auth.html', '_self')
 })

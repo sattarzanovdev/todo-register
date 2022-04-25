@@ -20,9 +20,10 @@ function getRegister(){
   .then(res => {
     localStorage.setItem('accessToken', res.accessToken)
     localStorage.setItem('refreshToken', res.refreshToken)
+    localStorage.setItem('isActivated', res.user.isActivated)
     localStorage.setItem('userId', res.user.id)
-  })
-  .then(res => console.log(res))
+    window.open('./index.html', '_self')
+  })  
 }
 
 

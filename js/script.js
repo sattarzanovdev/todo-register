@@ -26,7 +26,6 @@ function getTodos(){
     .then(r => {
       const todos = r.todos
       const result = todos  
-        .reverse()
         .map(todo => cardTemplate(todo))
         .join('')
 

@@ -138,8 +138,14 @@ function editTodo(id){
     .then(res => {
       const askTitle = prompt('New title', res.title)
       const askContent = prompt('New content', res.content)
-
-      requests.PUT(`${base}/todos/${id}`, accessToken, {askTitle, askContent})
+      fetch(`${base}/todos/${id}`, {
+        method: 'PUT',
+        headers: requestsHeader(accessToken),
+        body: JSON.stringify({
+          title: askTitle || res.title,
+          content: askContent || res.content
+        })
+      })
         .then(getTodos)
     })
 }

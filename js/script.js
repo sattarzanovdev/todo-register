@@ -33,35 +33,68 @@ function getTodos(){
     })
 }
 
-function getSingleTodo(id){
-  return fetch(`${base}/todos/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-type':'application/json',
-      'Authorization':`Bearer ${accessToken}`
-    }
-  })
+const requestsHeader = (accessToken) => {
+  return {
+    'Content-type':'application/json',
+    'Authorization':`Bearer ${accessToken}`
+  }
+}
+
+const requests = {
+  GET: (url, accessToken) => {
+    return fetch(url, {
+      method: "GET",
+      headers: {
+        'Content-type':'application/json',
+        'Authorization':`Bearer ${accessToken}`
+      }
+    })
     .then(res => res.json())
+  },
+  POST: (url, accessToken, body) => {
+    return fetch(url, {
+      method: "POST",
+      headers: requestsHeader(accessToken),
+      body:JSON.stringify(body)
+    })
+      .then(res => res.json())
+  },
+  DELETE: (url, accessToken) => {
+    return fetch(url, {
+      method: 'DELETE',
+      headers: requestsHeader(accessToken),
+    })
+      .then(res => res.json())
+  },
+  PUT: (url, accessToken) => {
+    return fetch(url, {
+      method: 'PUT',
+      headers: requestsHeader(accessToken),
+      body: JSON.stringify({
+        title: askTitle || res.title,
+        content: askContent || res.content
+      })
+    })
+
+      .then(res => res.json())
+  }
+}
+
+function getSingleTodo(id){
+  return requests.GET(`${base}/todos/${id}`, accessToken)
+    .then(res => res.json())
+}
+
+function getRefresh(){
+  requests.POST(`${base}/refresh`, accessToken, {refreshToken})
+    .then(res => console.log(res))
 }
 
 function createTodos(title, content, date){
   $submit.disabled = true
 
-  fetch(`${base}/todos/create`, {
-    method: 'POST', 
-    headers: {
-      'Content-type':'application/json',
-      'Authorization':`Bearer ${accessToken}`
-    },
-    body: JSON.stringify({
-      title,
-      content, 
-      date,
-    })
-  })
-    .then(() => {
-      getTodos()
-    })
+    requests.POST(`${base}/todos/create`, accessToken, {title, content, date})
+    .then(() => getTodos())
     .finally(() => $submit.disabled = false)
 }
 
@@ -92,24 +125,12 @@ function cardTemplate({title, content, date, id, completed, edited}){
 }
 
 function completeTodo(id){
-  fetch(`${base}/todos/${id}/completed`, {
-    method: 'GET', 
-    headers: {
-      'Content-type':'application/json',
-      'Authorization':`Bearer ${accessToken}`
-    }
-  })
+  requests.GET(`${base}/todos/${id}/completed`, accessToken)
     .then(getTodos)
 }
 
 function deleteTodo(id){
-  fetch(`${base}/todos/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Content-type':'application/json',
-      'Authorization':`Bearer ${accessToken}`
-    }
-  })
+  requests.DELETE(`${base}/todos/${id}`, accessToken)
     .then(getTodos)
 }
 
@@ -119,17 +140,7 @@ function editTodo(id){
       const askTitle = prompt('New title', res.title)
       const askContent = prompt('New content', res.content)
 
-      fetch(`${base}/todos/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-type':'application/json',
-          'Authorization':`Bearer ${accessToken}`
-        },
-        body: JSON.stringify({
-          title: askTitle || res.title,
-          content: askContent || res.content
-        })
-      })
+      requests.PUT(`${base}/todos/${id}`, accessToken, {askTitle, askContent})
         .then(getTodos)
     })
 }
@@ -150,14 +161,8 @@ $signOut.addEventListener('click', e => {
   $signOut.disabled = true
   $signOut.classList.add('disabled')
 
-  fetch(`${base}/logout`, {
-    method: 'POST',
-    headers: {
-      'Content-type':'application/json'
-    },
-    body:JSON.stringify({refreshToken})
-  })
-    .then(res => res.json())
+
+  requests.POST(`${base}/logout`, refreshToken)
     .then(() => {
       localStorage.clear()
       window.open('./auth.html', '_self')

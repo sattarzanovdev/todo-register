@@ -196,3 +196,38 @@ body{
     opacity: 0;
   }
 }
+
+
+@media screen and (max-width: 425px) {
+  .card{
+    margin-left: 50px;
+  }
+  .addTodo{
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .card{
+    display: flex;
+    flex-wrap: wrap;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+  }
+  .addTodo{
+    width: 300px;
+  }
+  .title{
+    width: 250px;
+  }
+  .content{
+    width: 250px;
+  }
+  .date{
+    width: 255px;
+  }
+  .submit{
+    width: 255px;
+  }
+}

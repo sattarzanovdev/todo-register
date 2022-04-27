@@ -82,7 +82,6 @@ const requests = {
 
 function getSingleTodo(id){
   return requests.GET(`${base}/todos/${id}`, accessToken)
-    .then(res => res.json())
 }
 
 function getRefresh(){
